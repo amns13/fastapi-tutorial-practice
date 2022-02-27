@@ -1,17 +1,8 @@
-from fastapi import FastAPI
+from fastapi import Cookie, FastAPI
 
 app = FastAPI()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-# A different app. Both cam run in parallel.
-altapp = FastAPI()
-
-
-@altapp.get("/")
-async def root():
-    return {"message": "Hello World from alt"}
+@app.get("/items/")
+async def read_items(ads_id: str | None = Cookie(None)):
+    return {"ads_id": ads_id}
