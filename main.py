@@ -1,17 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
 
 app = FastAPI()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-# A different app. Both cam run in parallel.
-altapp = FastAPI()
-
-
-@altapp.get("/")
-async def root():
-    return {"message": "Hello World from alt"}
+@app.post("/login/")
+async def login(username: str = Form(...), password: str = Form(...)):
+    return {"username": username}
