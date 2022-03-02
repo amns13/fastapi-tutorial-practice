@@ -1,17 +1,11 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
+from fastapi.security import OAuth2PasswordBearer
 
 app = FastAPI()
 
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
-# A different app. Both cam run in parallel.
-altapp = FastAPI()
-
-
-@altapp.get("/")
-async def root():
-    return {"message": "Hello World from alt"}
+@app.get("/items/")
+async def read_items(token: str = Depends(oauth2_scheme)):
+    return {"token": token}
